@@ -21,6 +21,7 @@ class DBHandler(object):
         db = client.get_database('profe2')
         return db
 
+    # obtenerLista (en los videos)
     def obtenerEstudiantes(self):
         response = ResponseModel()
         try:
