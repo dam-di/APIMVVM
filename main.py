@@ -8,6 +8,9 @@ from ResponseModel import ResponseModel
 app = Flask(__name__)
 
 
+
+
+
 @app.route('/students', methods=['POST','PUT','DELETE','GET'])
 def students():
     print(request.json)
@@ -18,6 +21,10 @@ def students():
             response = addStudent(request.json['data'])
         elif request.method == 'GET':
             response = getStudent(request.json['data'])
+        elif request.method == 'PUT':
+            response = updateStudent(request.json['data'])
+        elif request.method == 'DELETE':
+            response = deleteStudent(request.json['data'])
 
 
     except Exception as e:
@@ -26,11 +33,20 @@ def students():
     return json.dumps(response.__dict__)
 
 
+def deleteStudent(_idE):
+    response = DBHandler().eliminarEstudiante(_idE)
+    return response
+
+
+def updateStudent(estudiante):
+    response = DBHandler().actualizar(estudiante)
+    return response
+
 def getStudent(_idE):
     if _idE == 'all':
         response = DBHandler().obtenerEstudiantes()
     else:
-        pass
+        response = DBHandler().obtenerEstudiante()
 
     return response
 

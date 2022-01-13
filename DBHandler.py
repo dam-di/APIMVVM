@@ -21,6 +21,47 @@ class DBHandler(object):
         db = client.get_database('profe2')
         return db
 
+
+    def eliminarEstudiante(self,_idE):
+        response = ResponseModel()
+
+        try:
+            self.collection.delete_one({'_id':_idE})
+            response.resultOk = True
+            response.data = 'Estudiante eliminado con exito'
+        except Exception as e:
+            print(e)
+
+
+        return response
+
+    def obtenerEstudiante(self,_idE):
+        response = ResponseModel()
+
+        try:
+            estudiante = self.collection.find_one({'_id':_idE})
+            response.resultOk = True
+            response.data = str(estudiante)
+        except Exception as e:
+            print(e)
+
+
+        return response
+
+
+    def actualizar(self, estudiante):
+        response = ResponseModel()
+        print(estudiante['Nombre'])
+
+        try:
+            self.collection.update_one({'_id':estudiante['_id']},{'$set':estudiante})
+            response.resultOk = True
+            response.data = 'Estudiante actualizado con exito'
+        except Exception as e:
+            print(e)
+
+        return response
+
     # obtenerLista (en los videos)
     def obtenerEstudiantes(self):
         response = ResponseModel()
