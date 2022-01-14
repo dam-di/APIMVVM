@@ -32,19 +32,16 @@ class DBHandler(object):
         except Exception as e:
             print(e)
 
-
         return response
 
     def obtenerEstudiante(self,_idE):
         response = ResponseModel()
-
         try:
             estudiante = self.collection.find_one({'_id':_idE})
             response.resultOk = True
             response.data = str(estudiante)
         except Exception as e:
             print(e)
-
 
         return response
 
