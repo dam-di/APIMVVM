@@ -22,10 +22,29 @@ class DBHandler(object):
         return db
 
 
+    def insertarImagen(self, image):
+        response = ResponseModel()
+        try:
+            self.collection = self.db.get_collection('imagenes')
+            self.collection.update_one({'id':image['_id']},{'$push':{'imagenes':image['imagenes']}}, upsert=True)
+            response.resultOk = True
+            response.data = 'Imagen insertada con exito'
+        except Exception as e:
+            print(e)
+
+        return response
+
+
+
+
+
+    #######################################
+    #ESTUDIANTES
     def eliminarEstudiante(self,_idE):
         response = ResponseModel()
 
         try:
+            self.collection = self.db.get_collection('estudiantes')
             self.collection.delete_one({'_id':_idE})
             response.resultOk = True
             response.data = 'Estudiante eliminado con exito'
@@ -37,6 +56,7 @@ class DBHandler(object):
     def obtenerEstudiante(self,_idE):
         response = ResponseModel()
         try:
+            self.collection = self.db.get_collection('estudiantes')
             estudiante = self.collection.find_one({'_id':_idE})
             response.resultOk = True
             response.data = str(estudiante)
@@ -51,6 +71,7 @@ class DBHandler(object):
         print(estudiante['Nombre'])
 
         try:
+            self.collection = self.db.get_collection('estudiantes')
             self.collection.update_one({'_id':estudiante['_id']},{'$set':estudiante})
             response.resultOk = True
             response.data = 'Estudiante actualizado con exito'
@@ -63,6 +84,7 @@ class DBHandler(object):
     def obtenerEstudiantes(self):
         response = ResponseModel()
         try:
+            self.collection = self.db.get_collection('estudiantes')
             listaEstudiantes = []
             coleccion = self.collection.find({})
             for estudiante in coleccion:
@@ -79,6 +101,7 @@ class DBHandler(object):
     def insertarEstudiante(self, estudiante):
         response = ResponseModel()
         try:
+            self.collection = self.db.get_collection('estudiantes')
             self.collection.insert_one(estudiante)
             response.resultOk = True
             response.data = 'Estudiante insertado con exito'

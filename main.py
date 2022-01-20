@@ -29,6 +29,45 @@ def checkTokenAuth(tokenSHA256Request, USER, route):
         print('acceso denegado')
         return False
 
+@app.route('/images', methods=['POST','PUT','DELETE','GET'])
+def images():
+    print(request.json)
+    response = ResponseModel()
+    tokenSHA256Request = request.authorization['password']
+    user = request.authorization['username']
+    route = request.json['route']
+
+    if checkTokenAuth(tokenSHA256Request, user, route):
+        try:
+            if request.method == 'POST':
+                response = addImage(request.json['data'])
+            elif request.method == 'GET':
+                pass
+                #response = getStudent(request.json['data'])
+            elif request.method == 'PUT':
+                pass
+                #response = updateStudent(request.json['data'])
+            elif request.method == 'DELETE':
+                pass
+                #response = deleteStudent(request.json['data'])
+
+
+        except Exception as e:
+            print(e)
+    else:
+        response.data = 'NO TIENES ACCESO'
+
+    return json.dumps(response.__dict__)
+
+def addImage(image):
+    response = DBHandler().insertarImagen(image)
+    return response
+
+
+
+
+
+
 
 @app.route('/students', methods=['POST','PUT','DELETE','GET'])
 def students():
