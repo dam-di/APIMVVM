@@ -34,7 +34,25 @@ class DBHandler(object):
 
         return response
 
+    def obtenerImagenes(self, _idE):
+        response = ResponseModel()
+        try:
+            self.collection = self.db.get_collection('imagenes')
+            imagenes = self.collection.find_one({'_id': _idE})
 
+            if imagenes is None:
+                print("ES NONE")
+                response.resultOk = False
+                response.data = "No hay imagenes"
+            else:
+                response.resultOk = True
+                response.data = str(imagenes)
+
+
+        except Exception as e:
+            print(e)
+
+        return response
 
 
 

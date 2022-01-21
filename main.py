@@ -42,7 +42,7 @@ def images():
             if request.method == 'POST':
                 response = addImage(request.json['data'])
             elif request.method == 'GET':
-                pass
+                response = getImages(request.json['data'])
                 #response = getStudent(request.json['data'])
             elif request.method == 'PUT':
                 pass
@@ -63,6 +63,9 @@ def addImage(image):
     response = DBHandler().insertarImagen(image)
     return response
 
+def getImages(_idE):
+    response = DBHandler().obtenerImagenes(_idE)
+    return response
 
 
 
