@@ -26,7 +26,7 @@ class DBHandler(object):
         response = ResponseModel()
         try:
             self.collection = self.db.get_collection('imagenes')
-            self.collection.update_one({'id':image['_id']},{'$push':{'imagenes':image['imagenes']}}, upsert=True)
+            self.collection.update_one({'_id':image['_id']},{'$push':{'imagenes':image['imagenes']}}, upsert=True)
             response.resultOk = True
             response.data = 'Imagen insertada con exito'
         except Exception as e:
